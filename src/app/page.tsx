@@ -1,14 +1,17 @@
-import Navbar          from '@/components/layout/Navbar'
-import Footer          from '@/components/layout/Footer'
-import HeroSection     from '@/components/sections/HeroSection'
-import StatsSection    from '@/components/sections/StatsSection'
-import AboutSection    from '@/components/sections/AboutSection'
-import FeaturesSection from '@/components/sections/FeaturesSection'
-import ServicesSection from '@/components/sections/ServicesSection'
-import ProcessSection  from '@/components/sections/ProcessSection'
-import CaseStudiesSection from '@/components/sections/CaseStudiesSection'
-import TechStackSection from '@/components/sections/TechStackSection'
-import CTASection      from '@/components/sections/CTASection'
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import HeroSection from "@/components/sections/HeroSection";
+import StatsSection from "@/components/sections/StatsSection";
+import AboutSection from "@/components/sections/AboutSection";
+import WhyPartnerSection from "@/components/sections/WhyPartnerSection";
+// import ServicesSection from "@/components/sections/ServicesSection";
+import CapabilitiesSection from "@/components/sections/CapabilitiesSection";
+import SuccessStoriesSection from "@/components/sections/SuccessStoriesSection";
+// import ProcessSection from "@/components/sections/ProcessSection";
+import RecentProjectsSection from "@/components/sections/RecentProjectsSection";
+
+import TechStackSection from "@/components/sections/TechStackSection";
+import CTASection from "@/components/sections/CTASection";
 
 /**
  * Home page — single-page landing with all sections composed in
@@ -34,7 +37,6 @@ export default function HomePage() {
 
       {/* ── Main Content ── */}
       <main id="main-content" tabIndex={-1}>
-
         {/* 1. Hero */}
         <HeroSection />
 
@@ -45,27 +47,31 @@ export default function HomePage() {
         <AboutSection />
 
         {/* 4. Why Choose Us */}
-        <FeaturesSection />
+        <WhyPartnerSection />
 
         {/* 5. Services */}
-        <ServicesSection />
+        {/* <ServicesSection /> */}
 
-        {/* 6. Process */}
-        <ProcessSection />
+        {/* 6. Services */}
+        <CapabilitiesSection />
 
-        {/* 7. Case Studies */}
-        <CaseStudiesSection />
+        <SuccessStoriesSection />
 
-        {/* 8. Technology Stack */}
+        {/* 7. Process */}
+        {/* <ProcessSection /> */}
+
+        {/* 8. Project sSection */}
+        <RecentProjectsSection />
+
+        {/* 9. Technology Stack */}
         <TechStackSection />
 
-        {/* 9. CTA Banner */}
+        {/* 10. CTA Banner */}
         <CTASection />
-
       </main>
 
       {/* ── Footer ── */}
       <Footer />
     </>
-  )
+  );
 }

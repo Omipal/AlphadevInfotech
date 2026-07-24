@@ -3,14 +3,14 @@
 import { useEffect, useRef } from "react";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
-import CaseStudyCard from "@/components/ui/CaseStudyCard";
+import WhyPartnerCard from "@/components/ui/WhyPartnerCard";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { CASE_STUDIES } from "@/data/content";
+import { FEATURES } from "@/data/content";
 
 /**
- * CaseStudiesSection — three case study cards with alternating reveal direction.
+ * FeaturesSection — "Why Choose Us" grid with staggered card reveal.
  */
-export default function CaseStudiesSection() {
+export default function WhyPartnerSection() {
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function CaseStudiesSection() {
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".case-studies-title",
+        ".section-features-title",
         { opacity: 0, y: 24 },
         {
           opacity: 1,
@@ -35,18 +35,19 @@ export default function CaseStudiesSection() {
           },
         },
       );
+
       gsap.fromTo(
-        ".case-study-card",
+        ".feature-card",
         { opacity: 0, y: 40, scale: 0.97 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
-          duration: 0.75,
-          stagger: 0.13,
+          duration: 0.65,
+          stagger: 0.09,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ".case-studies-grid",
+            trigger: ".features-grid",
             start: "top 82%",
             once: true,
           },
@@ -60,23 +61,23 @@ export default function CaseStudiesSection() {
   return (
     <section
       ref={sectionRef}
-      id="case-studies"
-      aria-label="Case Studies"
+      id="why-us"
+      aria-label="Why Choose AlphaDev Infotech"
       className="section-padding"
-      style={{ background: "var(--background)" }}
+      style={{ background: "var(--surface)" }}
     >
       <Container>
-        <div className="case-studies-title pb-8" style={{ opacity: 0 }}>
+        <div className="section-features-title" style={{ opacity: 0 }}>
           <SectionTitle
-            eyebrow="Case Studies"
-            heading="Proven Results at Scale"
-            subheading="Real projects. Real outcomes. Here's a look at how we've helped businesses solve complex problems with technology."
+            eyebrow="Why Choose Us"
+            heading="Why Partner With Us?"
+            subheading=""
           />
         </div>
 
-        <div className="case-studies-grid mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {CASE_STUDIES.map((study, i) => (
-            <CaseStudyCard key={study.title} study={study} index={i} />
+        <div className="features-grid mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {FEATURES.map((feature, i) => (
+            <WhyPartnerCard key={feature.title} feature={feature} index={i} />
           ))}
         </div>
       </Container>

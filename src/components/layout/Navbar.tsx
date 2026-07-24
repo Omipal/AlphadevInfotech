@@ -18,34 +18,6 @@ function getLenis(): LenisInstance | undefined {
     | undefined;
 }
 
-/**
- * Navbar
- *
- * Layout (all breakpoints share the same 80 px fixed header):
- *
- *  Mobile  (<768px)  : [Logo]                [Hamburger]
- *  Tablet  (768–1023): [Logo] [Nav — compressed] [CTA — small]
- *  Desktop (≥1024px) : [Logo] [Nav — full gap]   [CTA]
- *
- * Scroll behaviour:
- *  • Transparent at the top of the page.
- *  • On scroll > 24 px → solid opaque white + blur + shadow.
- *    Background is rgba(255,255,255,0.97) so NO page content
- *    is ever visible through the header.
- *
- * Active section:
- *  • IntersectionObserver watches each nav-target section.
- *  • The matching nav link gains `nav-link--active` (brand colour + underline).
- *
- * Mobile drawer:
- *  • CSS-class–driven (`.is-open`) — no React conditional rendering.
- *    This eliminates the first-open flicker caused by hydration.
- *  • Overlay: `display:none` on ≥768 px (via CSS media query) so
- *    it can never accidentally block desktop interaction.
- *  • Smooth 380 ms translate + opacity transitions driven purely by CSS.
- *  • Body scroll locked while open; released on close.
- *  • Closes on: link click, backdrop tap, Escape key.
- */
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -55,7 +27,7 @@ export default function Navbar() {
   // ── Scroll detection ───────────────────────────────────────────────────
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll(); // evaluate immediately on mount (handles pre-scrolled pages)
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -75,7 +47,7 @@ export default function Navbar() {
       },
       {
         threshold: [0.15, 0.3],
-        rootMargin: "-80px 0px -25% 0px", // account for 80 px navbar
+        rootMargin: "-80px 0px -25% 0px",
       },
     );
 
@@ -115,7 +87,7 @@ export default function Navbar() {
       if (!target) return;
       const lenis = getLenis();
       if (lenis) {
-        lenis.scrollTo(target, { offset: -84 }); // 80px bar + 4px breathing
+        lenis.scrollTo(target, { offset: -84 });
       } else {
         target.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -138,30 +110,33 @@ export default function Navbar() {
           className="container-site navbar-inner"
           aria-label="Main navigation"
         >
-          {/* ── Logo ──────────────────────────────────────────────────── */}
+          {/* ── Logo (Responsive Width) ─────────────────────────────────── */}
           <a
             href="/"
-            className="navbar-logo-link"
+            className="navbar-logo-link flex-shrink-0"
             aria-label="AlphaDev Infotech — home"
           >
             <Image
               src="/alphadevinfotech-logo.png"
               alt="AlphaDev Infotech logo"
-              width={130}
-              height={39}
+              width={180}
+              height={50}
               priority
-              className="h-4 md:h-5 w-[200px] max-h-full object-contain"
+              className="w-[130px] md:w-[150px] lg:w-[170px] xl:w-[190px] h-auto object-contain transition-all duration-300"
             />
           </a>
 
-          {/* ── Desktop nav links (hidden on mobile via .navbar-links CSS) ── */}
-          <ul role="list" className="navbar-links">
+          {/* ── Desktop nav links (Visible lg and above) ──────────────── */}
+          <ul
+            role="list"
+            className="navbar-links !hidden lg:!flex flex-1 justify-center gap-1 xl:gap-3"
+          >
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
                   className={cn(
-                    "nav-link",
+                    "nav-link lg:!px-2 xl:!px-3 lg:!text-[13px] xl:!text-sm whitespace-nowrap",
                     activeHref === link.href && "nav-link--active",
                   )}
                   aria-current={activeHref === link.href ? "page" : undefined}
@@ -173,8 +148,8 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* ── CTA button (hidden on mobile via .navbar-cta CSS) ────── */}
-          <div className="navbar-cta">
+          {/* ── CTA button (Visible lg and above) ─────────────────────── */}
+          <div className="navbar-cta !hidden lg:!flex flex-shrink-0">
             <PrimaryButton
               href="#contact"
               onClick={(e) =>
@@ -190,13 +165,9 @@ export default function Navbar() {
             </PrimaryButton>
           </div>
 
-          {/* ── Hamburger (visible ONLY below md) ────────────────────── */}
-          {/*
-           * Hidden at md+ via Tailwind md:hidden.
-           * The CSS `.navbar-toggle` class provides sizing + hover state.
-           */}
+          {/* ── Hamburger (Visible up to lg breakpoint) ───────────────── */}
           <button
-            className="navbar-toggle"
+            className="navbar-toggle !flex lg:!hidden"
             aria-label={
               mobileOpen ? "Close navigation menu" : "Open navigation menu"
             }
@@ -214,18 +185,11 @@ export default function Navbar() {
       </header>
 
       {/* ════════════════════════ MOBILE DRAWER ═════════════════════════ */}
-      {/*
-       * The overlay lives in the DOM at all times (no conditional render).
-       * CSS `display:none` hides it on ≥768 px so desktop is unaffected.
-       * The `.is-open` class drives ALL animations:
-       *   backdrop  : opacity 0 → 1
-       *   panel     : translateX(100%) → translateX(0)
-       *   overlay   : pointer-events: none → auto
-       *
-       * This approach means the first open is instant with no flicker.
-       */}
       <div
-        className={cn("mobile-nav-overlay", mobileOpen && "is-open")}
+        className={cn(
+          "mobile-nav-overlay !block lg:!hidden",
+          mobileOpen && "is-open",
+        )}
         aria-hidden={!mobileOpen}
       >
         {/* Backdrop — tap anywhere to close */}
@@ -243,19 +207,19 @@ export default function Navbar() {
           aria-label="Navigation menu"
           className="mobile-nav-panel"
         >
-          {/* Panel header — matches navbar height */}
+          {/* Panel header */}
           <div className="mobile-nav-header">
             <Image
               src="/alphadevinfotech-logo.png"
               alt="AlphaDev Infotech"
-              width={130}
-              height={39}
+              width={140}
+              height={40}
               className="h-6 w-auto max-h-full object-contain"
               style={{ background: "transparent" }}
             />
             <button
               onClick={() => setMobileOpen(false)}
-              className="navbar-toggle"
+              className="navbar-toggle !flex lg:!hidden"
               aria-label="Close navigation menu"
             >
               <X size={20} strokeWidth={2} />

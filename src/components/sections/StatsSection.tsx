@@ -51,13 +51,11 @@ export default function StatsSection() {
       style={{ background: "var(--surface)" }}
     >
       <Container>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
           {STATS.map((stat, i) => (
             <StatCard key={stat.label} stat={stat} />
           ))}
         </div>
-
-        <div className="divider-gradient divider mt-16" aria-hidden="true" />
       </Container>
     </section>
   );

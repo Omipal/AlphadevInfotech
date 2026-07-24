@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 import Container from "@/components/ui/Container";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { ABOUT } from "@/data/content";
 
 /**
- * AboutSection — split layout: text content left, highlight cards right.
+ * AboutSection — split layout: text content left, Image right.
  * GSAP ScrollTrigger reveals the two columns from opposite sides.
  */
 export default function AboutSection() {
@@ -60,7 +60,7 @@ export default function AboutSection() {
       style={{ background: "var(--background)" }}
     >
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 xl:gap-24 items-center">
           {/* Left: text */}
           <div
             ref={leftRef}
@@ -73,6 +73,7 @@ export default function AboutSection() {
               align="left"
             />
 
+            {/* Paragraphs */}
             <div className="flex flex-col gap-5">
               {ABOUT.body.map((para, i) => (
                 <p
@@ -84,58 +85,23 @@ export default function AboutSection() {
                 </p>
               ))}
             </div>
-
-            {/* Subtle brand accent bar */}
-            <div
-              className="h-1 w-24 rounded-full"
-              style={{
-                background:
-                  "linear-gradient(90deg, var(--primary), var(--secondary))",
-              }}
-              aria-hidden="true"
-            />
           </div>
 
-          {/* Right: highlights */}
+          {/* Right: Image */}
           <div
             ref={rightRef}
-            className="flex flex-col gap-5"
+            className="relative w-full h-[350px] md:h-[450px] lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl"
             style={{ opacity: 0 }}
           >
-            {ABOUT.highlights.map((h, i) => (
-              <div
-                key={h.title}
-                className="glass-panel p-7 flex flex-col gap-3"
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                    style={{ background: "rgba(var(--primary-rgb), 0.1)" }}
-                  >
-                    <CheckCircle2
-                      size={18}
-                      style={{ color: "var(--primary)" }}
-                      aria-hidden="true"
-                    />
-                  </div>
-                  <h3
-                    className="text-base font-bold"
-                    style={{
-                      color: "var(--text-primary)",
-                      fontFamily: "var(--font-family-heading)",
-                    }}
-                  >
-                    {h.title}
-                  </h3>
-                </div>
-                <p
-                  className="text-sm leading-7 pl-12"
-                  style={{ color: "var(--text-secondary)" }}
-                >
-                  {h.description}
-                </p>
-              </div>
-            ))}
+            {ABOUT.image && (
+              <Image
+                src={ABOUT.image}
+                alt="About Us - AlphaDev Infotech"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            )}
           </div>
         </div>
       </Container>
