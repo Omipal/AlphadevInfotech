@@ -15,12 +15,24 @@ export interface Stat {
   description?: string;
 }
 
+export interface AboutData {
+  eyebrow: string;
+  headline: string; // <--- इसे 'headline' कर दिया गया है
+  body: string[];
+  image: string;
+}
+
 export interface Feature {
   icon: string;
   title: string;
   description: string;
 }
 
+export interface WhyChooseUsData {
+  eyebrow: string;
+  heading: string;
+  features: Feature[];
+}
 export interface Service {
   icon: string;
   title: string;
@@ -32,14 +44,6 @@ export interface ProcessStep {
   number: string;
   title: string;
   description: string;
-}
-
-export interface CaseStudy {
-  tag: string;
-  title: string;
-  description: string;
-  results: string[];
-  tech: string[];
 }
 
 export interface Technology {
@@ -89,7 +93,7 @@ export interface SuccessStory {
   challenge: string;
   solution: string;
   image: string;
-  keyFeatures: SuccessStoryFeature[];
+  keyFeatures: string[]; // <-- इसे बदलकर string[] कर दिया गया है
 }
 
 export interface SuccessStoriesData {

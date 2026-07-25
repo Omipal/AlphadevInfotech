@@ -22,7 +22,12 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string>("");
+
   const observerRef = useRef<IntersectionObserver | null>(null);
+
+  // ✅ FIX: क्लिक और स्क्रॉल की लड़ाई (Conflict) रोकने के लिए Refs
+  const isClickScrolling = useRef(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // ── Scroll detection ───────────────────────────────────────────────────
   useEffect(() => {
@@ -32,31 +37,42 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // ── Active section tracking ────────────────────────────────────────────
+  // ── Active section tracking (Robust Scroll Spy) ────────────────────────
   useEffect(() => {
     const ids = NAV_LINKS.map((l) => l.href.replace("#", "")).filter(Boolean);
 
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0) {
-          setActiveHref(`#${visible[0].target.id}`);
-        }
-      },
-      {
-        threshold: [0.15, 0.3],
-        rootMargin: "-80px 0px -25% 0px",
-      },
-    );
+    const initObserver = setTimeout(() => {
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          // ✅ FIX: अगर यूज़र ने लिंक पर क्लिक किया है, तो ऑब्ज़र्वर को इग्नोर करें
+          if (isClickScrolling.current) return;
 
-    const obs = observerRef.current;
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) obs.observe(el);
-    });
-    return () => obs.disconnect();
+          const visibleEntries = entries.filter((e) => e.isIntersecting);
+
+          if (visibleEntries.length > 0) {
+            visibleEntries.sort(
+              (a, b) => b.intersectionRatio - a.intersectionRatio,
+            );
+            setActiveHref(`#${visibleEntries[0].target.id}`);
+          }
+        },
+        {
+          threshold: [0, 0.25, 0.5, 0.75, 1],
+          rootMargin: "-80px 0px -40% 0px",
+        },
+      );
+
+      const obs = observerRef.current;
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) obs.observe(el);
+      });
+    }, 500);
+
+    return () => {
+      clearTimeout(initObserver);
+      if (observerRef.current) observerRef.current.disconnect();
+    };
   }, []);
 
   // ── Body scroll lock ───────────────────────────────────────────────────
@@ -81,10 +97,22 @@ export default function Navbar() {
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
       e.preventDefault();
       setMobileOpen(false);
+
+      // ✅ FIX: तुरंत एक्टिव स्टेट सेट करें
+      setActiveHref(href);
+
+      // ✅ FIX: ऑब्ज़र्वर को 1.2 सेकंड के लिए पॉज़ कर दें जब तक स्क्रॉल पूरा न हो जाए
+      isClickScrolling.current = true;
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => {
+        isClickScrolling.current = false;
+      }, 1200);
+
       if (href === "#") return;
       const id = href.replace("#", "");
       const target = document.getElementById(id);
       if (!target) return;
+
       const lenis = getLenis();
       if (lenis) {
         lenis.scrollTo(target, { offset: -84 });
@@ -192,14 +220,12 @@ export default function Navbar() {
         )}
         aria-hidden={!mobileOpen}
       >
-        {/* Backdrop — tap anywhere to close */}
         <div
           className="mobile-nav-backdrop"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
 
-        {/* Slide panel */}
         <div
           id="mobile-nav-panel"
           role="dialog"
@@ -207,7 +233,6 @@ export default function Navbar() {
           aria-label="Navigation menu"
           className="mobile-nav-panel"
         >
-          {/* Panel header */}
           <div className="mobile-nav-header">
             <Image
               src="/alphadevinfotech-logo.png"
@@ -226,7 +251,6 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Nav links */}
           <nav className="mobile-nav-body" aria-label="Mobile navigation">
             {NAV_LINKS.map((link) => (
               <a
@@ -244,7 +268,6 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* Footer CTA */}
           <div className="mobile-nav-footer">
             <PrimaryButton
               href="#contact"

@@ -164,30 +164,26 @@ export default function SuccessStoriesSection() {
                     <ShieldCheck size={20} />
                   </div>
                   <h4 className="font-heading text-lg font-bold text-[var(--text-primary)]">
-                    Core Capabilities
+                    Key Features
                   </h4>
                 </div>
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  {/* यहाँ हमने सिंपल स्ट्रिंग के लिए कोड को अपडेट कर दिया है */}
                   {activeStory.keyFeatures.map((feat, i) => (
                     <div
                       key={i}
                       className="flex items-start gap-4 p-4 rounded-xl hover:bg-[var(--surface)] border border-transparent hover:border-[var(--border)] transition-all duration-300"
                     >
-                      <div className="mt-1">
+                      <div className="mt-1 flex-shrink-0">
                         <CheckCircle2
                           size={18}
                           className="text-[var(--primary)]"
                         />
                       </div>
-                      <div>
-                        <h5 className="text-sm font-bold text-[var(--text-primary)] mb-1">
-                          {feat.title}
-                        </h5>
-                        <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                          {feat.text}
-                        </p>
-                      </div>
+                      <p className="text-sm text-[var(--text-secondary)] leading-relaxed font-medium">
+                        {feat}
+                      </p>
                     </div>
                   ))}
                 </div>

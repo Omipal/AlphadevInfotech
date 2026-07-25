@@ -57,7 +57,7 @@ export default function CTASection() {
   return (
     <section
       ref={sectionRef}
-      id="cta"
+      id="contact"
       aria-label="Call to action — Get in touch"
       className="cta-section py-24 md:py-32 relative section-padding"
     >

@@ -7,11 +7,11 @@
 import type {
   NavLink,
   Stat,
+  AboutData,
   Feature,
   Service,
   Capability,
   ProcessStep,
-  CaseStudy,
   TechCategory,
   FooterSection,
 } from "@/types";
@@ -88,62 +88,49 @@ export const STATS: Stat[] = [
 // ——————————————————————————————————————————
 // ABOUT
 // ——————————————————————————————————————————
-export const ABOUT = {
-  eyebrow: "Engineering Excellence",
-  headline: "About Us",
+export const ABOUT: AboutData = {
+  eyebrow: "ENGINEERING EXCELLENCE",
+  headline: "About Us", // <--- यहाँ भी 'headline' कर दिया है
+  image: "/images/about_us_fintech.png",
   body: [
     "Alphadev Infotech is a specialized financial technology firm dedicated to engineering high-performance trading infrastructures, investment platforms, and quantitative research systems. We bridge the gap between complex financial requirements and modern software engineering, delivering ultra-low latency solutions that drive institutional success.",
     "Our expertise lies in building mission-critical systems where speed, accuracy, and reliability are non-negotiable. From fractional investment platforms to high-frequency backtesting engines, we empower financial institutions to scale with confidence.",
   ],
-  image: "/images/about_us_fintech.png",
-  // highlights: [
-  //   {
-  //     title: "Precision Engineering",
-  //     description:
-  //       "We follow strict engineering practices: code reviews, CI/CD pipelines, automated testing, and zero-compromise quality standards.",
-  //   },
-  //   {
-  //     title: "Partnership Approach",
-  //     description:
-  //       "We embed with your team as trusted technical partners, not just vendors. Long-term success is our shared goal.",
-  //   },
-  //   {
-  //     title: "Outcome Driven",
-  //     description:
-  //       "Every decision we make is tied to measurable business outcomes — not just technical deliverables.",
-  //   },
-  // ],
 };
 
 // ——————————————————————————————————————————
 // FEATURES / WHY CHOOSE US
 // ——————————————————————————————————————————
-export const FEATURES: Feature[] = [
-  {
-    icon: "Brain",
-    title: "Domain Native",
-    description:
-      "We understand Greeks, order books, and latency as well as we understand code.",
-  },
-  {
-    icon: "Zap",
-    title: "Speed First",
-    description:
-      "Our architecture prioritizes execution speed and data throughput.",
-  },
-  {
-    icon: "Server",
-    title: "Scalable",
-    description:
-      "Systems designed from Day 1 to handle growing user bases and data volumes.",
-  },
-  {
-    icon: "Shield",
-    title: "Reliable",
-    description:
-      "Proven track record of deploying stable, financial-grade software.",
-  },
-];
+export const WHY_CHOOSE_US_DATA = {
+  eyebrow: "Why Choose Us",
+  heading: "Why Partner With Us?",
+  features: [
+    {
+      icon: "Zap",
+      title: "Speed First",
+      description:
+        "Our architecture prioritizes execution speed and data throughput.",
+    },
+    {
+      icon: "Server",
+      title: "Scalable",
+      description:
+        "Systems designed from Day 1 to handle growing user bases and data volumes.",
+    },
+    {
+      icon: "Brain",
+      title: "Domain Native",
+      description:
+        "We understand Greeks, order books, and latency as well as we understand code.",
+    },
+    {
+      icon: "ShieldCheck",
+      title: "Reliable",
+      description:
+        "Proven track record of deploying stable, financial-grade software.",
+    },
+  ],
+};
 
 // ——————————————————————————————————————————
 // CORE CAPABILITIES (New Section from Old Website)
@@ -445,32 +432,23 @@ export const SUCCESS_STORIES_DATA = {
   eyebrow: "Success Stories & Domain Experience",
   heading: "Architecting Market-Leader Ecosystems",
   subheading:
-    "Explore how we've engineered mission-critical infrastructure powering India's top financial platforms.",
+    "We have delivered robust technology solutions powering leading platforms in the Indian Fintech ecosystem.",
   stories: [
     {
       id: "digigold",
       tabLabel: "WealthTech",
-      title: "Digital Bullion Platform",
+      title: "Digital Bullion Investment Platform",
       client: "DigiGold.com",
-      badge: "High-Frequency Wealth Engine",
+      badge: "COMMODITIES & WEALTHTECH", // पुरानी साइट की Category
       challenge:
-        "To democratize access to precious metals through a secure, digital-first interface handling high-frequency transactions.",
+        "To democratize access to precious metals through a secure, digital-first interface.",
       solution:
-        "Engineered a robust, scalable platform facilitating real-time buying, selling, and vaulting of physical gold and silver.",
+        "Engineered a secure platform facilitating the buying, selling, and vaulting of physical gold and silver.",
       image: "/images/digigold.png",
       keyFeatures: [
-        {
-          title: "Real-Time Market Integration",
-          text: "Live bullion market rates with ultra-low latency updates.",
-        },
-        {
-          title: "Micro-Investment Logic",
-          text: "Fractional ownership algorithms enabling small ticket investments.",
-        },
-        {
-          title: "Bank-Grade Vault Security",
-          text: "Secure transaction processing and physical vault auditing integrations.",
-        },
+        "Real-time integration with live bullion market rates.",
+        "Fractional ownership logic enabling micro-investments.",
+        "Bank-grade security for transaction processing and vault auditing.",
       ],
     },
     {
@@ -478,25 +456,16 @@ export const SUCCESS_STORIES_DATA = {
       tabLabel: "Debt Markets",
       title: "Fixed Income Marketplace",
       client: "TheFixedIncome.com",
-      badge: "Regulatory Compliant Ledger",
+      badge: "DEBT MARKETS & RETAIL INVESTMENT", // पुरानी साइट की Category
       challenge:
-        "To simplify the complex bond market for retail investors while maintaining strict SEBI regulatory compliance.",
+        "To simplify the complex bond market for retail investors while maintaining regulatory compliance.",
       solution:
         "Built a transparent, user-friendly marketplace for discovering and investing in corporate and government bonds.",
       image: "/images/fixed-income.png",
       keyFeatures: [
-        {
-          title: "Simplified Yield Calculation",
-          text: "Automated logic for portfolio tracking and bond yields.",
-        },
-        {
-          title: "Secure KYC Workflows",
-          text: "Onboarding flows fully compliant with SEBI regulations.",
-        },
-        {
-          title: "Educational Data Viz",
-          text: "Transparent data visualization modules for debt instruments.",
-        },
+        "Simplified yield calculation and portfolio tracking.",
+        "Secure KYC and onboarding workflows compliant with SEBI regulations.",
+        "Educational modules and transparent data visualization for debt instruments.",
       ],
     },
   ],
@@ -529,19 +498,16 @@ export const FOOTER_SECTIONS: FooterSection[] = [
   {
     title: "Connect",
     links: [
-      { label: "LinkedIn", href: "#" },
-      { label: "Twitter", href: "#" },
-      { label: "GitHub", href: "#" },
-      { label: "Dribbble", href: "#" },
+      { label: "LinkedIn", href: "#" }, // <-- यहाँ सिर्फ LinkedIn रखा है
     ],
   },
 ];
 
 export const COMPANY = {
   name: "AlphaDev Infotech",
-  tagline: "Engineering Digital Excellence",
+  tagline: "Where Speed Meets Precision.",
   address: "India",
-  email: "hello@alphadev.in",
+  email: "dev.tech@alphadevinfotech.com",
   phone: "+91 00000 00000",
   founded: "2024",
 };

@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import { FaLinkedin } from "react-icons/fa6";
 import Container from "@/components/ui/Container";
 import { FOOTER_SECTIONS, COMPANY } from "@/data/content";
+import Link from "next/link";
 
 /**
  * Footer — server component with company info, navigation, social links.
@@ -21,19 +23,20 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand column */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            <Image
-              src="/alphadevinfotech-logo.png"
-              alt="AlphaDev Infotech"
-              width={160}
-              height={44}
-              className="h-10 w-[200px] brightness-0 invert"
-            />
+            <Link href="/">
+              <Image
+                src="/alphadevinfotech-logo.png"
+                alt="AlphaDev Infotech"
+                width={160}
+                height={44}
+                className="h-10 w-[200px] brightness-0 invert"
+              />
+            </Link>
             <p
               className="text-sm leading-7 max-w-xs"
               style={{ color: "rgba(255,255,255,0.55)" }}
             >
-              {COMPANY.tagline}. Engineering enterprise-grade software solutions
-              for businesses that demand excellence.
+              {COMPANY.tagline}
             </p>
 
             {/* Contact details */}
@@ -78,32 +81,27 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Social links */}
+            {/* Social links - ONLY LINKEDIN WITH CORRECT ICON */}
             <div
               className="flex items-center gap-3"
               role="list"
               aria-label="Social media links"
             >
-              {[
-                { href: "#", label: "LinkedIn" },
-                { href: "#", label: "X / Twitter" },
-                { href: "#", label: "GitHub" },
-              ].map(({ href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  role="listitem"
-                  aria-label={label}
-                  className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 text-xs font-bold"
-                  style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                    color: "rgba(255,255,255,0.5)",
-                  }}
-                >
-                  <ExternalLink size={14} />
-                </a>
-              ))}
+              <a
+                href="https://www.linkedin.com/company/alphadevinfotech/posts/?feedView=all" // यहाँ अपनी असली LinkedIn प्रोफाइल का लिंक डाल सकते हैं
+                target="_blank"
+                rel="noopener noreferrer"
+                role="listitem"
+                aria-label="LinkedIn"
+                className="w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-200 text-xs font-bold hover:bg-[var(--primary)] hover:border-[var(--primary)] hover:text-white"
+                style={{
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.5)",
+                }}
+              >
+                <FaLinkedin size={16} />
+              </a>
             </div>
           </div>
 
